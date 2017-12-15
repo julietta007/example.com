@@ -1,10 +1,13 @@
 <?php
 //Include non-vendor files
 require '../core/About/src/Validation/Validate2.php';
+require '../vendor/autoload.php';
+require '../../keys.php';
+
 
 //Declare Namespaces
 use About\Validation;
-
+use Mailgun\Mailgun;
 //Validate Declarations
 $valid = new About\Validation\Validate();
 
@@ -40,14 +43,26 @@ if(!empty($input)){
         ]],
     ];
 
-
     $valid->check($input);
 
+    if(empty($valid->errors) && !empty($input)){
+        $message = "<div style=\"color: #00ff000;\">Your form has been submitted!</div>";
 
-if(empty($valid->errors) && !empty($input)){
-    $message = "<div style=\"color: #00ff00;\">Your form has been submitted!</div>";
+        # Instantiate the client.
+        $mgClient = new Mailgun('$mailgunkey');
+        $domain = "sandbox9f9689058863482484e42d257e2d5e28.mailgun.org";
 
-}else{
-    $message = "<div style=\"color: #ff0000;\">Please correct the errors below!</div>";
+        # Make the call to the client.
+        $result = $mgClient->sendMessage("$domain",
+              array('from'    => "{$input['first_name']} {$input['last_name']} <{$input['email']}>",
+                    'to'      => 'julietta Hensgen <juliettaurdiales@yahoo.com>',
+                    'subject' => $input['subject'],
+                    'text'    => $input['subject']
+                ));
+
+
+    var_dump($result);
+    }else{
+            $message = "<div style=\"color: #ff0000;\">Please correct the errors</div>";
     }
 }
