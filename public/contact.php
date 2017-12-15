@@ -1,3 +1,31 @@
+<?php
+
+$validEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/";
+
+$data = $_POST;
+$errors = [];
+
+foreach($data as $key => $value) {
+  echo "{$key} = {$value}<br>";
+
+  switch($key) {
+      case 'email':
+        if(preg_match($validEmail, $value)!==1) {
+            $errors[$key] = "Invalid Email";
+        }
+        break;
+
+      default:
+        if(empty($value)){
+            $errors[$key] = "Invalid {$key}";
+        }
+        break;
+  }
+}
+var_dump($errors);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,6 +40,11 @@
     <a href="contact.php">Contact</a>
 </nav>
       Contact
+      <form method="post">
+
+
+
+
       <div>
               <label for="firstName">First Name</label><br>
               <input type="text" name="first_name" id="firstName">
@@ -35,5 +68,9 @@
             <div>
               <label for="message" id="message">Message</label><br>
               <textarea name="message"></textarea>
-            </div>    </body>
+            </div>
+      <input type="submit">
+
+  </form>
+        </body>
 </html>
