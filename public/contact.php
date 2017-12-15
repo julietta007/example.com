@@ -1,31 +1,6 @@
-<?php
+<?php require '../core/processcontactform.php';
 
-$validEmail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/";
-
-$data = $_POST;
-$errors = [];
-
-foreach($data as $key => $value) {
-  echo "{$key} = {$value}<br>";
-
-  switch($key) {
-      case 'email':
-        if(preg_match($validEmail, $value)!==1) {
-            $errors[$key] = "Invalid Email";
-        }
-        break;
-
-      default:
-        if(empty($value)){
-            $errors[$key] = "Invalid {$key}";
-        }
-        break;
-  }
-}
-var_dump($errors);
-
-?>
-
+        ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -40,10 +15,8 @@ var_dump($errors);
     <a href="contact.php">Contact</a>
 </nav>
       Contact
+      <?php echo $message; ?>
       <form method="post">
-
-
-
 
       <div>
               <label for="firstName">First Name</label><br>
@@ -58,6 +31,8 @@ var_dump($errors);
             <div>
               <label for="email" id="email">Email</label><br>
               <input type="text" name="email">
+              <div style="color: #ff0000;"><?php echo $valid->error('email'); ?></div>
+
             </div>
 
             <div>
