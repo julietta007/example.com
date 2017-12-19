@@ -1,4 +1,10 @@
   <?php
+  $meta =[];
+  $meta['title'] = 'Julietta\'s Resume';
+  $meta['description'] = 'Junior Developer/Production Artist';
+  $meta['keywords'] = 'InDesign, Illustrator, Photoshop';
+  $content = <<<EOT.;
+
 
   require '../core/processcontactform.php';
 
